@@ -17,18 +17,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build APK with Gradle
+    - name: Install Gradle & Build APK
       run: |
-        if [ -f "./gradlew" ]; then
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
-        elif [ -f "app/gradlew" ]; then
-          cd app
-          chmod +x gradlew
-          ./gradlew assembleDebug
-        else
-          gradle assembleDebug
+        sudo apt-get update && sudo apt-get install -y gradle
+        if [ ! -f "gradlew" ]; then
+          gradle wrapper
         fi
+        chmod +x gradlew
+        ./gradlew assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
