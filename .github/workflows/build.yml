@@ -19,11 +19,15 @@ jobs:
 
     - name: Build APK with Gradle
       run: |
-        if [ -f "gradlew" ]; then
+        if [ -f "./gradlew" ]; then
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+        elif [ -f "app/gradlew" ]; then
+          cd app
           chmod +x gradlew
           ./gradlew assembleDebug
         else
-          echo "Gradle wrapper missing, please add gradlew"
+          gradle assembleDebug
         fi
 
     - name: Upload APK Artifact
